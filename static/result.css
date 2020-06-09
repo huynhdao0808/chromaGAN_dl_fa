@@ -1,0 +1,39 @@
+/* .imgarea{
+    position: relative;
+    z-index: -1; 
+} */
+body{
+    /* background-image: url('https://images.unsplash.com/photo-1487147264018-f937fba0c817?ixlib=rb-1.2.1&auto=format&fit=crop&w=1834&q=80'); */
+    background-image: url('https://images.unsplash.com/photo-1534082753658-1dcb40af5719?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80https://images.unsplash.com/photo-1498940757830-82f7813bf178?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1867&q=80');
+    /* background-image: url(/static/images/background_2.jpg); */
+}
+.content{
+    /* position: absolute; */
+    color:black;
+    /* top: 50%;
+    transform: translate(-50%, -50%); */
+    font-family:"Lucida Console", Courier, monospace;
+    /* background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px); */
+}
+.content h1{
+    font-size: 100px;
+}
+.hover-shadow:hover {
+    box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.2), 0 30px 50px 0 rgba(0, 0, 0, 0.19);
+  }
+.shadow-custom{
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+}
+footer{
+    text-align: center;
+    background-color: rgba(44, 39, 39, 0.712);
+    padding-top: 5px;
+    padding-bottom: 5x;
+    color: seashell;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+    

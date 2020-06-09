@@ -1,0 +1,117 @@
+
+body{
+  background-image: url("https://i2.wp.com/bdtechtalks.com/wp-content/uploads/2018/12/artificial-intelligence-deep-learning-neural-networks-ai-1.jpg?fit=2000%2C1111&ssl=1");
+}
+.content{
+  position: relative;
+  top: 13%;
+  width: 100%;
+}
+.header{
+
+  color:#000000;
+  font-family:"Lucida Console", Courier, monospace;
+  /* box-shadow: 0 .5rem 1rem rgba(0,0,0,.15); */
+  padding: 40px;
+  padding-left:100px ;
+  padding-right: 100px;
+  color: white;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+}
+.content h1{
+  font-size: 100px;
+}
+.hover-shadow:hover {
+  box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.2), 0 30px 50px 0 rgba(0, 0, 0, 0.19);
+}
+.shadow-custom{
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+}
+footer{
+  text-align: center;
+  background-color: #2c2727b6;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: seashell;
+}
+.card-deck{
+  display: flex;
+  justify-content: center;
+}
+
+div#loading {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  cursor: wait;
+  }
+div#loading h2{
+  font-size: 100px;
+  z-index: 1;
+  font-weight: 800;
+  color: white;
+}
+.bg
+{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: burlywood;
+  animation: animate 6s ease-in-out infinite;
+}
+@keyframes animate
+{
+  0%
+  {
+      transform:scaleX(0);
+      transform-origin:left;
+      background-color: #F3B115;
+  }
+  25%
+  {
+      transform: scaleX(1);
+      transform-origin: left;
+      background-color: #F3B115;
+  }
+  25.001%
+  {
+      transform: scaleX(1);
+      transform-origin: right;
+      background-color: #F3B115;
+  }
+  50%
+  {
+      transform:scaleX(0);
+      transform-origin:right;
+      background-color: #F3B115;
+  }
+  50.001%
+  {
+      transform:scaleX(0);
+      transform-origin:right;
+      background-color: #FEC2CA;
+  
+  }
+  75%
+  {
+      transform:scaleX(1);
+      transform-origin:right;
+      background-color: #FEC2CA;
+      
+  }
+  75.001%
+  {
+      transform:scaleX(1);
+      transform-origin:left;
+      background-color: #FEC2CA;
+  }
+  100%
+  {
+      transform: scaleX(0);
+      transform-origin: left;
+      background-color: #FEC2CA;
+  }
+}
+

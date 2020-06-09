@@ -1,0 +1,27 @@
+    <!-- <div class="container mt-5">
+      <p style="color: white; font-size:20px ; font-weight:800;">RECENTLY UPLOADED</p>
+      <div class="card-deck">
+        {% for pic in recent_pic%}
+        <div class="card shadow-custom hover-shadow">
+          <img class="card-img-top" src="/static/images/upload/{{pic[0]}}" alt="Card image cap"">
+        {% if pic[1] > 0.5 %}
+        <div class=" card-body">
+          <h5 class="card-title" style="text-align: center;">CAT</h5>
+          <p class="card-text" style="text-align: center;">Confident level: {{(pic[1]*100)|round(2,'floor')}}%</p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">Updated at {{pic[3]}}</small>
+        </div>
+        {% else %}
+        <div class="card-body">
+          <h5 class="card-title" style="text-align: center;">DOG</h5>
+          <p class="card-text" style="text-align: center;">Confident level: {{(100-pic[1]*100)|round(2,'floor')}}%</p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">Updated at {{pic[3]}}</small>
+        </div>
+        {% endif %}
+      </div>
+      {% endfor%}
+    </div>
+  </div> -->

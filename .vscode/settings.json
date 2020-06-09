@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "database": "${workspaceFolder}/predictions.db",
+            "dialect": "SQLite",
+            "name": "predictions"
+        }
+    ],
+    "sqltools.useNodeRuntime": true,
+    "python.pythonPath": "E:\\ProgramData\\Anaconda3\\python.exe"
+}

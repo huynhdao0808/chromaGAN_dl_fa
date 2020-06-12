@@ -1,21 +1,19 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<head>
-  <title>Title</title>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="/static/result.css">
-</head>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/result.css">
+  </head>
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Old pictures Restoration</a>
+    <a class="navbar-brand" href="#">Image Colorization</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -37,23 +35,23 @@
   </div> -->
   <div class="modal fade" id="image_new" data-backdrop="static" tabindex="-1" role="dialog"
   aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-md" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <img class="img-fluid " src="/static/images/result/{{new_filename}}" alt="5 Terre" style="width:100%">
+      <img class="img-fluid " src="/static/images/result_2/{{filename}}" alt="5 Terre" style="width:100%">
     </div>
   </div>
 </div>
   <div class="container content p-5 mt-5">
     <div class="row">
       <div class="col">
-        <div class='row d-flex justify-content-center mb-5 mt-5'>
+        <div class='row d-flex justify-content-center mb-5'>
           <div class="card shadow-custom hover-shadow">
-            <img style="height: 224px; width:auto;" class="card-img-top" src="/static/images/upload/{{filename}}" alt="Card image cap">
+            <img style="height: 448px; width:auto;" class="card-img-top" src="/static/images/upload/{{filename}}" alt="Card image cap">
           </div>
         </div>
         <div class="row d-flex justify-content-center">
@@ -61,9 +59,9 @@
         </div>
       </div>
       <div class="col">
-        <div class='row d-flex justify-content-center mb-5 mt-5'>
+        <div class='row d-flex justify-content-center mb-5'>
           <div class="card shadow-custom hover-shadow" data-toggle="modal" data-target="#image_new">
-            <img class="card-img-top" style="height: 224px; width:224px;" src="/static/images/result/{{new_filename}}" alt="Card image cap">
+            <img class="card-img-top" style="height: 448px; width:auto;" src="/static/images/result_2/{{filename}}" alt="Card image cap">
           </div>
         </div>
         <div class="row d-flex justify-content-center">

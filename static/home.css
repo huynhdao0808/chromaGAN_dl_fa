@@ -1,11 +1,12 @@
 body{
     /* background-image: url("https://i2.wp.com/bdtechtalks.com/wp-content/uploads/2018/12/artificial-intelligence-deep-learning-neural-networks-ai-1.jpg?fit=2000%2C1111&ssl=1"); */
-    background-image: url('https://images.unsplash.com/photo-1546624538-0a85938a4f2e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=564&q=80');
+    /* background-image: url('https://images.unsplash.com/photo-1546624538-0a85938a4f2e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=564&q=80'); */
     /* background-image: url('https://images.unsplash.com/photo-1573688697771-81f8c2c4dc7f?ixlib=rb-1.2.1&auto=format&fit=crop&w=655&q=80'); */
+    background-image: url('/static/images/background.jpg');
 }
 .content{
     position: relative;
-    top: 20px;
+    top: 5px;
     width: 100%;
 }
 .header{

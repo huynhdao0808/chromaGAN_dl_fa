@@ -1,22 +1,20 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<head>
-  <title>Title</title>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="/static/home.css">
-</head>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/home.css">
+  </head>
 
 <body>
-  <div id='content'>
+  <div id='content'>    
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">Old pictures Restoration</a>
+      <a class="navbar-brand" href="#">Image Colorization</a>
       <div class="collapse navbar-collapse" style="margin-left:30%;" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item active">
@@ -28,16 +26,16 @@
         </ul>
       </div>
     </nav>
-    <div class="content">
+    <div class="content mt-5 mb-5">
       <div class=" header">
         <div class="row d-flex justify-content-center">
-          <h1 style="font-size: 60px; text-align: center;">OLD PICTURES RESTORATION</h1>
+          <h1 style="font-size: 60px; text-align: center;">IMAGE COLORIZATION</h1>
         </div>
         <div class="row d-flex justify-content-center">
-          <h2 style="font-size: 50px; text-align: center;">CHROMAGAN and ESRGAN</h2>
+          <h2 style="font-size: 50px; text-align: center;">with CHROMAGAN and ESRGAN</h2>
         </div>
         <div class="row d-flex justify-content-center">
-          <h2 style="font-size: 20px; text-align: center;">ESRGAN by Nhan Pham - Mariana class</h2>
+          <h2 style="font-size: 20px; text-align: center;">ESRGAN by Nhan Phan - Mariana class</h2>
         </div>
         <div class="row d-flex justify-content-center mt-5">
           <form action='/' method="Post" enctype="multipart/form-data">
@@ -70,32 +68,32 @@
         </div>
       </div>
     </div>
-    <div class="container mt-5">
+    <div class="container mt-5" style="position:relative; top:100px;">
       <p style="color: white; font-size:40px ; font-weight:800; text-align:center;">GALLERY</p>
       <div class="container">
-        {% for i in range(current_index)%}
+        {% for i in range(current_index-1,-1,-1)%}
         <div class="modal fade" id="image_{{i+1}}" data-backdrop="static" tabindex="-1" role="dialog"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-md" role="document">
+        <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <img class="img-fluid " src="/static/images/result/{{i+1}}.jpg" alt="5 Terre" style="width:100%">
+            <img class="img-fluid " src="/static/images/result_2/{{i+1}}.jpg" alt="5 Terre" style="width:100%">
           </div>
         </div>
       </div>
         <div class="row mb-5">
           <div class="col d-flex justify-content-end mb-2">
           <div class="card shadow-custom hover-shadow" >
-            <img style="width: auto; height:224px;" class="card-img-top" src="/static/images/upload/{{i+1}}.jpg" alt="Card image cap"">
+            <img style="width: auto; height:448px;" class="card-img-top" src="/static/images/upload/{{i+1}}.jpg" alt="Card image cap"">
           </div>
         </div>
           <div class="col d-flex justify-content-right mb-2">
           <div class=" card shadow-custom hover-shadow" data-toggle="modal" data-target="#image_{{i+1}}">
-            <img style="width: auto; height:224px;" class="card-img-top" src="/static/images/result/{{i+1}}.jpg" alt="Card image cap"">
+            <img style="width: auto; height:448px;" class="card-img-top" src="/static/images/result_2/{{i+1}}.jpg" alt="Card image cap"">
           </div>
         </div>
         </div>
@@ -108,7 +106,7 @@
   </div>
           <div id="loading" class='loader' style="display: none;">
             <div class='bg'></div>
-            <h2>ANALYZING...</h2>
+            <h2>PAINTING...</h2>
           </div>
           <!-- Optional JavaScript -->
           <script>// <![CDATA[

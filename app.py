@@ -13,18 +13,21 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 # DIRECTORY INFORMATION
 ROOT_DIR = os.path.abspath('.')
 MODEL_DIR = os.path.join(ROOT_DIR, 'model')
-COL_MODEL_PATH_OTHER = os.path.join(MODEL_DIR, 'my_model_colorizationEpoch8.h5')
-COL_MODEL_PATH_PEOPLE = os.path.join(MODEL_DIR, 'my_model_colorization.h5')
-ESR_MODEL_PATH = os.path.join(MODEL_DIR, 'generator_python36.h5')
+COL_MODEL_PATH_COCO = os.path.join(MODEL_DIR, 'col_coco.h5')
+COL_MODEL_PATH_COCO_448 = os.path.join(MODEL_DIR, 'col_coco_448.h5')
+COL_MODEL_PATH_CELEBA = os.path.join(MODEL_DIR, 'col_celeba.h5')
+COL_MODEL_PATH_IMAGENET = os.path.join(MODEL_DIR, 'col_imagenet.h5')
+ESR_MODEL_PATH = os.path.join(MODEL_DIR, 'esr.h5')
 
 UPLOAD_DIR = os.path.join(ROOT_DIR,'static','images','upload') # UPDATE
-OUT_DIR = os.path.join(UPLOAD_DIR, '..','result')
+OUT_DIR_1 = os.path.join(UPLOAD_DIR, '..','result_1')
+OUT_DIR_2 = os.path.join(UPLOAD_DIR, '..','result_2')
 
 # DATA INFORMATION
-IMAGE_SIZE = 224
+IMAGE_SIZE = 448
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER']=UPLOAD_DIR
+app.config['UPLOAD_FOLDER']=UPLOAD_DIR    
 
 class ESR(object):
     def __init__(self, model_path):
@@ -43,19 +46,14 @@ class ESR(object):
 
         return lr
 
-    def predict(self, path):
-        lr = self.preprocess(path)
-        return self.model.predict(lr)
-
-def visualize_prediction(sr):
-    sr = (sr[0]*255).astype(int)
-    plt.figure(figsize=(10, 8))
-    plt.imshow(sr)
-    plt.show()
-
-def save_prediction(sr, file_name):
-    sr = (sr[0]*255).astype(int)
-    plt.imsave('{}.png'.format(file_name), sr)
+    def predict(self, filename):
+        file_path = os.path.join(OUT_DIR_1,filename)
+        lr = self.preprocess(file_path)
+        result = self.model.predict(lr)
+        result = (result[0]*255).astype('uint8')
+        save_path = os.path.join(OUT_DIR_2, filename)
+        plt.imsave(save_path, result)
+        return result
 
 class Colorization():
     def __init__(self, model_path):
@@ -72,24 +70,26 @@ class Colorization():
     def reconstruct(self, batchX, predictedY, filename):
         result = np.concatenate((batchX, predictedY), axis=2)
         result = cv2.cvtColor(result, cv2.COLOR_Lab2BGR)
-        if not os.path.exists(OUT_DIR):
-            os.makedirs(OUT_DIR)
-        save_path = os.path.join(OUT_DIR, filename)
+        result = result[:self.current_shape[0],:self.current_shape[1]]
+        if not os.path.exists(OUT_DIR_1):
+            os.makedirs(OUT_DIR_1)
+        save_path = os.path.join(OUT_DIR_1, filename)
         cv2.imwrite(save_path, result)
         return result
 
-    def read_img(self, filename):
+    def read_img(self, filename,img_size):
         img = cv2.imread(filename, 3)
         height, width, channels = img.shape
-        min_hw = int(min(height,width)/2)
-        img = img[int(height/2)-min_hw:int(height/2)+min_hw,int(width/2)-min_hw:int(width/2)+min_hw,:]
-        labimg = cv2.cvtColor(cv2.resize(img, (IMAGE_SIZE, IMAGE_SIZE)), cv2.COLOR_BGR2Lab)
-        return np.reshape(labimg[:,:,0], (IMAGE_SIZE, IMAGE_SIZE, 1))
+        max_hw = int(max(height,width))
+        img = np.pad(img,((0,max_hw-height),(0,max_hw-width),(0,0)),'median')
+        labimg = cv2.cvtColor(cv2.resize(img, (img_size, img_size)), cv2.COLOR_BGR2Lab)
+        result_shape =  (np.array([height,width])/max_hw*img_size).astype('int64')
+        return np.reshape(labimg[:,:,0], (img_size, img_size, 1)), result_shape
 
-    def predict(self, filename):
+    def predict(self, filename,img_size):
         file_path = os.path.join(UPLOAD_DIR,filename)
 
-        l_1 = self.read_img(file_path)
+        l_1, self.current_shape = self.read_img(file_path,img_size)
         l_1 = np.expand_dims(l_1, axis=0)
         l_1 = l_1/255
 
@@ -104,7 +104,7 @@ def allowed_file(filename):
 
 def get_current_index():
     try:
-        image_path = Path(OUT_DIR)
+        image_path = Path(UPLOAD_DIR)
         image_path = image_path.glob('*.*')
         image_name = [path.name for path in image_path]
         image_name = [int(name.split('.')[0]) for name in image_name]
@@ -113,19 +113,11 @@ def get_current_index():
         current_index = 0
     return current_index
 
-global img_type
 global index
 index = get_current_index()
-# colorization_model_other = Colorization(COL_MODEL_PATH_OTHER)
-# colorization_model_people = Colorization(COL_MODEL_PATH_PEOPLE)
+colorization_model = Colorization(COL_MODEL_PATH_COCO_448)
+colorization_model_celeba = Colorization(COL_MODEL_PATH_CELEBA)
 esr_model = ESR(ESR_MODEL_PATH)
-path = os.path.join(UPLOAD_DIR,'1.jpg') # path to test image 
-print('Load model done')
-output = esr_model.predict(path)
-print(output.shape)
-print('Predict done')
-save_path = os.path.join(OUT_DIR, 'test.jpg')
-cv2.imwrite(save_path, result)
 
 @app.route('/',methods=['GET','POST'])
 def home():
@@ -135,7 +127,6 @@ def home():
             print('No file part')
             return redirect(request.url)
         data = request.form.to_dict()
-        global img_type
         img_type = data['img_type']
         file = request.files['file']
         # if user does not select file, browser also
@@ -144,23 +135,21 @@ def home():
             print('No selected file')
             return redirect(request.url)
         if file and allowed_file(file.filename):
-            filename = file.filename 
             global index 
             index += 1 
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], str(index)+".jpg"))
             new_filename = str(index)+".jpg" 
-            return redirect(url_for('result',filename = new_filename))   
+            return redirect(url_for('result',filename = new_filename, img_type = img_type))   
     return render_template('home.html', current_index=index)
 
-@app.route('/result/<filename>')
-def result(filename):
-    global img_type
-    if img_type == 1:
-        colorization_model_people.predict(filename)
+@app.route('/result/<filename>/<img_type>')
+def result(filename, img_type):
+    if int(img_type) == 1:
+        colorization_model_celeba.predict(filename,224)
     else:
-        colorization_model_other.predict(filename)
-    # Prediction(None,filename,float(prediction[0][0])).save_into_db()
-    return render_template('result.html', new_filename=filename.split('.')[0]+'.jpg', filename=filename) 
+        colorization_model.predict(filename,448)
+    esr_model.predict(filename)
+    return render_template('result.html', filename=filename) 
 
 @app.route('/howitworks')
 def how_it_works():

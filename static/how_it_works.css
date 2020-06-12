@@ -1,6 +1,7 @@
 
 body{
-  background-image: url("https://i2.wp.com/bdtechtalks.com/wp-content/uploads/2018/12/artificial-intelligence-deep-learning-neural-networks-ai-1.jpg?fit=2000%2C1111&ssl=1");
+  /* background-image: url("https://i2.wp.com/bdtechtalks.com/wp-content/uploads/2018/12/artificial-intelligence-deep-learning-neural-networks-ai-1.jpg?fit=2000%2C1111&ssl=1"); */
+  background-image: url('/static/images/background.jpg');
 }
 .content{
   position: relative;
@@ -29,6 +30,9 @@ body{
   box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
 }
 footer{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
   text-align: center;
   background-color: #2c2727b6;
   padding-top: 5px;

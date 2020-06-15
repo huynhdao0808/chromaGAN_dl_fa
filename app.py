@@ -7,7 +7,7 @@ import time
 from pathlib import Path
 import matplotlib.pyplot as plt
 
-os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+# os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 # DIRECTORY INFORMATION
@@ -16,8 +16,10 @@ MODEL_DIR = os.path.join(ROOT_DIR, 'model')
 COL_MODEL_PATH_COCO = os.path.join(MODEL_DIR, 'col_coco.h5')
 COL_MODEL_PATH_COCO_448 = os.path.join(MODEL_DIR, 'col_coco_448.h5')
 COL_MODEL_PATH_CELEBA = os.path.join(MODEL_DIR, 'col_celeba.h5')
+COL_MODEL_PATH_CELEBA_448 = os.path.join(MODEL_DIR, 'col_celeba_448.h5')
 COL_MODEL_PATH_IMAGENET = os.path.join(MODEL_DIR, 'col_imagenet.h5')
 ESR_MODEL_PATH = os.path.join(MODEL_DIR, 'esr.h5')
+CLASSIFICATION_MODEL_PATH = os.path.join(MODEL_DIR, 'classification.h5')
 
 UPLOAD_DIR = os.path.join(ROOT_DIR,'static','images','upload') # UPDATE
 OUT_DIR_1 = os.path.join(UPLOAD_DIR, '..','result_1')
@@ -29,6 +31,23 @@ IMAGE_SIZE = 448
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER']=UPLOAD_DIR    
 
+class Classification():
+    def __init__(self, model_path):
+        self.model = tf.keras.models.load_model(model_path)
+    # Decode jpeg and and resize image
+    def preprocess(self, path):
+        image = tf.io.read_file(path)
+        image = tf.image.decode_jpeg(image, channels=3)
+        image = tf.image.resize(image, [224,224])
+        image = tf.expand_dims(image, axis=0)
+        image = image/255
+        return image
+    def predict(self, filename):
+        file_path = os.path.join(UPLOAD_DIR,filename)
+        lr = self.preprocess(file_path)
+        result = self.model.predict(lr)[0][0]>0.95
+        return result  
+    
 class ESR(object):
     def __init__(self, model_path):
         self.model = tf.keras.models.load_model(model_path)
@@ -118,6 +137,7 @@ index = get_current_index()
 colorization_model = Colorization(COL_MODEL_PATH_COCO_448)
 colorization_model_celeba = Colorization(COL_MODEL_PATH_CELEBA)
 esr_model = ESR(ESR_MODEL_PATH)
+classification_model = Classification(CLASSIFICATION_MODEL_PATH)
 
 @app.route('/',methods=['GET','POST'])
 def home():
@@ -126,8 +146,8 @@ def home():
         if 'file' not in request.files:
             print('No file part')
             return redirect(request.url)
-        data = request.form.to_dict()
-        img_type = data['img_type']
+        # data = request.form.to_dict()
+        # img_type = data['img_type']
         file = request.files['file']
         # if user does not select file, browser also
         # submit an empty part without filename
@@ -139,12 +159,13 @@ def home():
             index += 1 
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], str(index)+".jpg"))
             new_filename = str(index)+".jpg" 
-            return redirect(url_for('result',filename = new_filename, img_type = img_type))   
+            return redirect(url_for('result',filename = new_filename))   
     return render_template('home.html', current_index=index)
 
-@app.route('/result/<filename>/<img_type>')
-def result(filename, img_type):
-    if int(img_type) == 1:
+@app.route('/result/<filename>')
+def result(filename):
+    potrait = classification_model.predict(filename)
+    if potrait == True:
         colorization_model_celeba.predict(filename,224)
     else:
         colorization_model.predict(filename,448)

@@ -7,5 +7,5 @@
         }
     ],
     "sqltools.useNodeRuntime": true,
-    "python.pythonPath": "E:\\ProgramData\\Anaconda3\\python.exe"
+    "python.pythonPath": "/home/huynhdao/anaconda3/bin/python"
 }
